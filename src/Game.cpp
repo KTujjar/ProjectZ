@@ -43,7 +43,7 @@ void Game::updateFPS(double dt)
 //Handles updating whats drawin on screen
 void Game::update(double delta)
 {
-
+    player.Update(delta);
 }
 
 //Handles drawing to screen
@@ -86,6 +86,7 @@ void Game::processEvents()
 
         handleMouseEvent(e);
         handleWindowEvent(e);
+        player.playerController(e);
     }
 }
 
