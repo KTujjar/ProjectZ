@@ -107,20 +107,49 @@ bool Player::Init(SDL_Renderer *r)
 void Player::playerController(const SDL_Event &e)
 {
     if (e.type == SDL_EVENT_KEY_DOWN) {
-        if (e.key.scancode == SDL_SCANCODE_A) 
+
+        int numKeys;
+
+        const auto* keyboardState = SDL_GetKeyboardState(&numKeys);
+        
+
+        //NEED to replace all of these with keyboard state so i can use diagonal movement;
+        if(keyboardState[SDL_SCANCODE_A])
         {
+            //SDL_Log("Hello");
+        }
+        if(e.key.scancode == SDL_SCANCODE_A && e.key.scancode == SDL_SCANCODE_S)
+        {
+            velocity = -movementSpeed/2;
+            diagonal = true;
+            currentSpriteSheet = runLeftSpriteSheet;
+        }
+        else if (e.key.scancode == SDL_SCANCODE_A) 
+        {
+            diagonal = false;
+            velocity = -movementSpeed;
+            xAxis = true;
             currentSpriteSheet = runLeftSpriteSheet;
         }
         else if(e.key.scancode == SDL_SCANCODE_D)
         {
+            diagonal = false;
+            velocity = movementSpeed;
+            xAxis = true;
             currentSpriteSheet = runRightSpriteSheet;
         }
         else if(e.key.scancode == SDL_SCANCODE_W)
         {
+            diagonal = false;
+            velocity = -movementSpeed;
+            xAxis = false;
             currentSpriteSheet = runUpSpriteSheet;
         }
         else if(e.key.scancode == SDL_SCANCODE_S)
         {
+            diagonal = false;
+            velocity = movementSpeed;
+            xAxis = false;
             currentSpriteSheet = runDownSpriteSheet;
         }
     }
@@ -128,18 +157,22 @@ void Player::playerController(const SDL_Event &e)
     {
         if (e.key.scancode == SDL_SCANCODE_A) 
         {
+            velocity = 0;
             currentSpriteSheet = idleLeftSpriteSheet;
         }
         else if(e.key.scancode == SDL_SCANCODE_D)
         {
+            velocity = 0;
             currentSpriteSheet = idleRightSpriteSheet;
         }
         else if(e.key.scancode == SDL_SCANCODE_W)
         {
+            velocity = 0;
             currentSpriteSheet = idleUpSpriteSheet;
         }
         else if(e.key.scancode == SDL_SCANCODE_S)
         {
+            velocity = 0;
             currentSpriteSheet = idleDownSpriteSheet;
         }
     }
@@ -147,6 +180,19 @@ void Player::playerController(const SDL_Event &e)
 
 void Player::Update(float dt)
 {
+    if(diagonal)
+    {
+        playerRect.y += velocity*dt;
+        playerRect.x -= velocity*dt;
+    }
+    else if(xAxis)
+    {
+        playerRect.x += velocity*dt;
+    }
+    else if(!xAxis)
+    {
+        playerRect.y += velocity*dt;
+    }
 }
 
 bool Player::Render(SDL_Renderer *r)
@@ -159,9 +205,9 @@ bool Player::Render(SDL_Renderer *r)
 
     Uint32 ticks = SDL_GetTicks();
     int currentFrame = (ticks / frameDuration) % static_cast<int>(animationFrames);
-    SDL_Log("%d", currentFrame);
+    //SDL_Log("%d", currentFrame);
     currentFrameRect.x = 0 + canvasWidth * currentFrame;    
-    SDL_Log("%f", currentFrameRect.x);
+    //SDL_Log("%f", currentFrameRect.x);
 
 
     if(!SDL_RenderTexture(r, currentSpriteSheet, &currentFrameRect, &playerRect))

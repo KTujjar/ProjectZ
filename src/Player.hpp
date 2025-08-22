@@ -49,15 +49,18 @@ public:
     };
 
     SDL_FRect currentFrameRect = idleRect;
-
     SDL_FRect playerRect ={100.0f, 100.0f, 100.0f, 100.0f};
-
-
-
     int canvasHeight = 80;
     int canvasWidth = 96;
     int playerHeight = 34; 
     int playerWidth = 22;
+
+    float velocity = 0.0f;
+    float movementSpeed = 200.0f;
+    bool xAxis;
+    bool diagonal;
+
+
 
     void playerController(const SDL_Event &e);
     bool Init(SDL_Renderer *r);
