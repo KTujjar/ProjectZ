@@ -54,12 +54,78 @@ bool Player::Init(SDL_Renderer *r)
     
     currentSpriteSheet = idleDownSpriteSheet;
 
+
+
+    //Load all Run SpriteSheets
+    runDownSpriteSheet = IMG_LoadTexture(r, runDownLocation);
+
+    if(runDownSpriteSheet == nullptr)
+    {
+        SDL_Log("runDownSpritesheet failed to load");
+        return false;
+    }
+
+    SDL_SetTextureScaleMode(runDownSpriteSheet, SDL_SCALEMODE_NEAREST);
+
+    runUpSpriteSheet = IMG_LoadTexture(r, runUpLocation);
+    
+    if(runUpSpriteSheet == nullptr)
+    {
+        SDL_Log("runUpSpritesheet failed to load");
+        return false;
+    }
+
+    SDL_SetTextureScaleMode(runUpSpriteSheet, SDL_SCALEMODE_NEAREST);
+
+    runLeftSpriteSheet = IMG_LoadTexture(r, runLeftLocation);
+    
+    if(runLeftSpriteSheet == nullptr)
+    {
+        SDL_Log("runLeftSpritesheet failed to load");
+        return false;
+    }
+
+    SDL_SetTextureScaleMode(runLeftSpriteSheet, SDL_SCALEMODE_NEAREST);
+    
+    runRightSpriteSheet = IMG_LoadTexture(r, runRightLocation);
+    
+    if(runRightSpriteSheet == nullptr)
+    {
+        SDL_Log("runRightSpritesheet failed to load");
+        return false;
+    }
+
+    SDL_SetTextureScaleMode(runRightSpriteSheet, SDL_SCALEMODE_NEAREST);
+    
+    currentSpriteSheet = idleDownSpriteSheet;
+
+
+
     return true;
 }
 
 void Player::playerController(const SDL_Event &e)
 {
     if (e.type == SDL_EVENT_KEY_DOWN) {
+        if (e.key.scancode == SDL_SCANCODE_A) 
+        {
+            currentSpriteSheet = runLeftSpriteSheet;
+        }
+        else if(e.key.scancode == SDL_SCANCODE_D)
+        {
+            currentSpriteSheet = runRightSpriteSheet;
+        }
+        else if(e.key.scancode == SDL_SCANCODE_W)
+        {
+            currentSpriteSheet = runUpSpriteSheet;
+        }
+        else if(e.key.scancode == SDL_SCANCODE_S)
+        {
+            currentSpriteSheet = runDownSpriteSheet;
+        }
+    }
+    else if(e.type == SDL_EVENT_KEY_UP)
+    {
         if (e.key.scancode == SDL_SCANCODE_A) 
         {
             currentSpriteSheet = idleLeftSpriteSheet;
@@ -76,19 +142,29 @@ void Player::playerController(const SDL_Event &e)
         {
             currentSpriteSheet = idleDownSpriteSheet;
         }
-    }   
+    }
 }
 
 void Player::Update(float dt)
 {
-    int currentSpriteSheetWidth = currentSpriteSheet->w;
-
-    int animationFrames = currentSpriteSheetWidth / canvasWidth;
 }
 
 bool Player::Render(SDL_Renderer *r)
 {
-    if(!SDL_RenderTexture(r, currentSpriteSheet, &idleRect, &playerRect))
+    const Uint32 frameDuration = 100;
+
+    int currentSpriteSheetWidth = currentSpriteSheet->w;
+
+    int animationFrames = currentSpriteSheetWidth / canvasWidth;
+
+    Uint32 ticks = SDL_GetTicks();
+    int currentFrame = (ticks / frameDuration) % static_cast<int>(animationFrames);
+    SDL_Log("%d", currentFrame);
+    currentFrameRect.x = 0 + canvasWidth * currentFrame;    
+    SDL_Log("%f", currentFrameRect.x);
+
+
+    if(!SDL_RenderTexture(r, currentSpriteSheet, &currentFrameRect, &playerRect))
     {
         return false;
     }
