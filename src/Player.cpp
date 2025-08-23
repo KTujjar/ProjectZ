@@ -106,93 +106,99 @@ bool Player::Init(SDL_Renderer *r)
 
 void Player::playerController(const SDL_Event &e)
 {
-    if (e.type == SDL_EVENT_KEY_DOWN) {
-
-        int numKeys;
-
-        const auto* keyboardState = SDL_GetKeyboardState(&numKeys);
-        
-
-        //NEED to replace all of these with keyboard state so i can use diagonal movement;
-        if(keyboardState[SDL_SCANCODE_A])
-        {
-            //SDL_Log("Hello");
-        }
-        if(e.key.scancode == SDL_SCANCODE_A && e.key.scancode == SDL_SCANCODE_S)
-        {
-            velocity = -movementSpeed/2;
-            diagonal = true;
-            currentSpriteSheet = runLeftSpriteSheet;
-        }
-        else if (e.key.scancode == SDL_SCANCODE_A) 
-        {
-            diagonal = false;
-            velocity = -movementSpeed;
-            xAxis = true;
-            currentSpriteSheet = runLeftSpriteSheet;
-        }
-        else if(e.key.scancode == SDL_SCANCODE_D)
-        {
-            diagonal = false;
-            velocity = movementSpeed;
-            xAxis = true;
-            currentSpriteSheet = runRightSpriteSheet;
-        }
-        else if(e.key.scancode == SDL_SCANCODE_W)
-        {
-            diagonal = false;
-            velocity = -movementSpeed;
-            xAxis = false;
-            currentSpriteSheet = runUpSpriteSheet;
-        }
-        else if(e.key.scancode == SDL_SCANCODE_S)
-        {
-            diagonal = false;
-            velocity = movementSpeed;
-            xAxis = false;
-            currentSpriteSheet = runDownSpriteSheet;
-        }
-    }
-    else if(e.type == SDL_EVENT_KEY_UP)
+    if(e.type == SDL_EVENT_KEY_UP)
     {
         if (e.key.scancode == SDL_SCANCODE_A) 
         {
-            velocity = 0;
+            
+            velocityX = 0;
             currentSpriteSheet = idleLeftSpriteSheet;
         }
         else if(e.key.scancode == SDL_SCANCODE_D)
         {
-            velocity = 0;
+           
+            velocityX = 0;
             currentSpriteSheet = idleRightSpriteSheet;
         }
         else if(e.key.scancode == SDL_SCANCODE_W)
         {
-            velocity = 0;
+           
+            velocityY = 0;
             currentSpriteSheet = idleUpSpriteSheet;
         }
         else if(e.key.scancode == SDL_SCANCODE_S)
         {
-            velocity = 0;
+            velocityY = 0;
             currentSpriteSheet = idleDownSpriteSheet;
         }
     }
 }
 
+void Player::movementController()
+{
+    int numKeys;
+
+    const auto* keyboardState = SDL_GetKeyboardState(&numKeys);
+    
+
+    //Bottom Left Diagonal Movement
+    if(keyboardState[SDL_SCANCODE_A] && keyboardState[SDL_SCANCODE_S])
+    {
+        velocityX = -movementSpeed;
+        velocityY = movementSpeed;
+        currentSpriteSheet = runDownSpriteSheet;
+    }
+
+    //Top Left Diagonal Movement
+    else if(keyboardState[SDL_SCANCODE_A] && keyboardState[SDL_SCANCODE_W])
+    {
+        velocityX = -movementSpeed;
+        velocityY = -movementSpeed;
+        currentSpriteSheet = runUpSpriteSheet;
+    }
+    //Top Right Diagonal Movement
+    else if(keyboardState[SDL_SCANCODE_D] && keyboardState[SDL_SCANCODE_W])
+    {
+        velocityX = movementSpeed;
+        velocityY = -movementSpeed;
+        currentSpriteSheet = runUpSpriteSheet;
+    }
+    //Bottom Right Diagonal Movement
+    else if(keyboardState[SDL_SCANCODE_D] && keyboardState[SDL_SCANCODE_S])
+    {
+        velocityX = movementSpeed;
+        velocityY = movementSpeed;
+        currentSpriteSheet = runDownSpriteSheet;
+    }
+    //Left Movement
+    else if(keyboardState[SDL_SCANCODE_A])
+    {
+        currentSpriteSheet = runLeftSpriteSheet;
+        velocityX = -movementSpeed;
+    }
+    else if(keyboardState[SDL_SCANCODE_D])
+    {
+        currentSpriteSheet = runRightSpriteSheet;
+        velocityX = movementSpeed;
+    }
+    else if(keyboardState[SDL_SCANCODE_S])
+    {
+        currentSpriteSheet = runDownSpriteSheet;
+        velocityY = movementSpeed;
+    }
+        else if(keyboardState[SDL_SCANCODE_W])
+    {
+        currentSpriteSheet = runUpSpriteSheet;
+        velocityY = -movementSpeed;
+    }
+}
+
 void Player::Update(float dt)
 {
-    if(diagonal)
-    {
-        playerRect.y += velocity*dt;
-        playerRect.x -= velocity*dt;
-    }
-    else if(xAxis)
-    {
-        playerRect.x += velocity*dt;
-    }
-    else if(!xAxis)
-    {
-        playerRect.y += velocity*dt;
-    }
+    movementController();
+
+    playerRect.x += velocityX *dt;
+    playerRect.y += velocityY *dt;
 }
 
 bool Player::Render(SDL_Renderer *r)

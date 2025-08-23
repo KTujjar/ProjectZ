@@ -55,14 +55,14 @@ public:
     int playerHeight = 34; 
     int playerWidth = 22;
 
-    float velocity = 0.0f;
+    float velocityX = 0.0f;
+    float velocityY = 0.0f;
     float movementSpeed = 200.0f;
-    bool xAxis;
-    bool diagonal;
 
 
 
     void playerController(const SDL_Event &e);
+    void movementController();
     bool Init(SDL_Renderer *r);
     bool Render(SDL_Renderer *r);
     void Update(float dt);
