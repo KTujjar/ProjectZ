@@ -63,6 +63,7 @@ public:
 
     void playerController(const SDL_Event &e);
     void movementController();
+    SDL_FRect getCollisionRect();
     bool Init(SDL_Renderer *r);
     bool Render(SDL_Renderer *r);
     void Update(float dt);

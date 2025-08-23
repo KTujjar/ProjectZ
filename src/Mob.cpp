@@ -47,6 +47,11 @@ void Mob::Init(SDL_Renderer *r, const char* name, const char* idleLoc, const cha
     currentSpriteSheet = idleSpriteSheet;
 }
 
+SDL_FRect Mob::getCollisionRect()
+{
+    return {mobRect.x + 50, mobRect.y + 50, mobRect.w - 100, mobRect.h - 100};
+}
+
 bool Mob::Render(SDL_Renderer *r)
 {
     const Uint32 frameDuration = 100;
@@ -64,6 +69,15 @@ bool Mob::Render(SDL_Renderer *r)
 
     if(!SDL_RenderTexture(r, currentSpriteSheet, &currentFrameRect, &mobRect))
     {
+        return false;
+    }
+
+    SDL_FRect collisionRect = getCollisionRect();
+    
+    SDL_SetRenderDrawColor(r, 255, 255, 255, 255);
+    if(!SDL_RenderRect(r, &collisionRect))
+    {
+        SDL_Log("Collision Rect for %s not loading", mobName);
         return false;
     }
 

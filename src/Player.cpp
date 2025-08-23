@@ -193,6 +193,11 @@ void Player::movementController()
     }
 }
 
+SDL_FRect Player::getCollisionRect()
+{
+    return {playerRect.x + 35, playerRect.y + 25, playerRect.w - 70, playerRect.h - 50};
+}
+
 void Player::Update(float dt)
 {
     movementController();
@@ -218,6 +223,16 @@ bool Player::Render(SDL_Renderer *r)
 
     if(!SDL_RenderTexture(r, currentSpriteSheet, &currentFrameRect, &playerRect))
     {
+        return false;
+    }
+
+    SDL_SetRenderDrawColor(r, 255, 255, 255, 255);
+
+    SDL_FRect collisionRect = getCollisionRect();
+
+    if(!SDL_RenderRect(r, &collisionRect))
+    {
+        SDL_Log("Player collision rect could not render");
         return false;
     }
 

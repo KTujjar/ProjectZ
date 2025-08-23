@@ -26,6 +26,7 @@ public:
     //Takes Renderer | Mob Name | IdleSpriteSheet path | WalkSpriteSheet path | canvasWidth(per frame) | canvasHeight(per frame)
     void Init(SDL_Renderer *r, const char* name, const char* idleLoc, const char* walkLoc, float cW, float cH);
     bool Render(SDL_Renderer *r);
+    SDL_FRect getCollisionRect();
     Mob();
     ~Mob();
 };
