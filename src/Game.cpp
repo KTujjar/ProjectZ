@@ -9,6 +9,7 @@ Game::Game()
 void Game::loadTextures()
 {
     player.Init(renderer);
+    whiteMan.Init(renderer, "whiteMan", "../assets/Mob/WhiteMan/idle.png", "../assets/Mob/WhiteMan/walk.png", 80, 80);
 }
 
 //Game Loop
@@ -54,6 +55,7 @@ void Game::render()
 
     //Render Objects Here
     player.Render(renderer);
+    whiteMan.Render(renderer);
 
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);

@@ -2,6 +2,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include "Global.hpp"
 #include "Player.hpp"
+#include "Mob.hpp"
 
 
 class Game
@@ -20,6 +21,7 @@ private:
     
     //Iniatlize other classes
     Player player;
+    Mob whiteMan;
 
 
 

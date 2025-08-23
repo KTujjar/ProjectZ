@@ -17,6 +17,7 @@ PRIVATE
     src/main.cpp
     src/Game.cpp
     src/Player.cpp
+    src/Mob.cpp
 )
 
 target_link_libraries(ProjectZ
