@@ -195,7 +195,7 @@ void Player::movementController()
 
 SDL_FRect Player::getCollisionRect()
 {
-    return {playerRect.x + 35, playerRect.y + 25, playerRect.w - 70, playerRect.h - 50};
+    return {playerRect.x + 35, playerRect.y + 30, playerRect.w - 70, playerRect.h - 55};
 }
 
 void Player::Update(float dt)
