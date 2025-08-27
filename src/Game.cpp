@@ -45,6 +45,8 @@ void Game::updateFPS(double dt)
 void Game::update(double delta)
 {
     player.Update(delta);
+    SDL_FRect playerC = player.getCollisionRect();
+    whiteMan.Update(delta, playerC.x, playerC.y);
 }
 
 //Handles drawing to screen

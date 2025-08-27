@@ -10,6 +10,27 @@ Mob::~Mob()
     
 }
 
+
+void Mob::Update(float dt, float playerX, float playerY)
+{
+    //mob collision
+    SDL_FRect mobC = getCollisionRect();
+
+    //distance between player and mob
+    float distanceX = playerX - mobC.x;
+    float distanceY = playerY - mobC.y;
+    float length = SDL_sqrtf(distanceX * distanceX + distanceY * distanceY);
+
+    if(length != 0)
+    {
+        distanceX /= length;
+        distanceY /= length;
+    }
+
+    mobRect.x += distanceX * movementSpeed * dt;
+    mobRect.y += distanceY * movementSpeed * dt;
+}
+
 void Mob::Init(SDL_Renderer *r, const char* name, const char* idleLoc, const char* walkLoc, float cW, float cH)
 {
     mobName = name;

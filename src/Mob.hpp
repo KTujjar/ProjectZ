@@ -19,6 +19,7 @@ private:
     SDL_FRect idleDownRect;
     SDL_FRect mobRect;
 public:
+    float movementSpeed = 100.0f;   
 
     SDL_FRect currentFrameRect;
     SDL_Texture *currentSpriteSheet = nullptr;
@@ -27,6 +28,7 @@ public:
     void Init(SDL_Renderer *r, const char* name, const char* idleLoc, const char* walkLoc, float cW, float cH);
     bool Render(SDL_Renderer *r);
     SDL_FRect getCollisionRect();
+    void Update(float dt, float playerX, float playerY);
     Mob();
     ~Mob();
 };
