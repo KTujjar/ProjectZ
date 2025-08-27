@@ -24,7 +24,6 @@ private:
     Mob whiteMan;
 
 
-
     //Initialize window variables
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;

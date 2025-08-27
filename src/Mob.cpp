@@ -31,7 +31,7 @@ void Mob::Update(float dt, float playerX, float playerY)
     mobRect.y += distanceY * movementSpeed * dt;
 }
 
-void Mob::Init(SDL_Renderer *r, const char* name, const char* idleLoc, const char* walkLoc, float cW, float cH)
+void Mob::Init(SDL_Renderer *r, const char* name, const char* idleLoc, const char* walkLoc, float cW, float cH, float X, float Y)
 {
     mobName = name;
     idleSpriteSheetLocation = idleLoc;
@@ -62,7 +62,7 @@ void Mob::Init(SDL_Renderer *r, const char* name, const char* idleLoc, const cha
     SDL_SetTextureScaleMode(walkSpriteSheet, SDL_SCALEMODE_NEAREST);
 
     idleDownRect = {0, canvasHeight, canvasWidth, canvasHeight};
-    mobRect = {200,200,125,125};
+    mobRect = {X,Y,125,125};
 
     currentFrameRect = idleDownRect;
     currentSpriteSheet = idleSpriteSheet;
@@ -86,7 +86,6 @@ bool Mob::Render(SDL_Renderer *r)
     //SDL_Log("%d", currentFrame);
     currentFrameRect.x = 0 + canvasWidth * currentFrame;    
     //SDL_Log("%f", currentFrameRect.x);
-
 
     if(!SDL_RenderTexture(r, currentSpriteSheet, &currentFrameRect, &mobRect))
     {

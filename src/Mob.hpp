@@ -25,7 +25,7 @@ public:
     SDL_Texture *currentSpriteSheet = nullptr;
 
     //Takes Renderer | Mob Name | IdleSpriteSheet path | WalkSpriteSheet path | canvasWidth(per frame) | canvasHeight(per frame)
-    void Init(SDL_Renderer *r, const char* name, const char* idleLoc, const char* walkLoc, float cW, float cH);
+    void Init(SDL_Renderer *r, const char* name, const char* idleLoc, const char* walkLoc, float cW, float cH, float X, float Y);
     bool Render(SDL_Renderer *r);
     SDL_FRect getCollisionRect();
     void Update(float dt, float playerX, float playerY);

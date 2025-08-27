@@ -9,7 +9,7 @@ Game::Game()
 void Game::loadTextures()
 {
     player.Init(renderer);
-    whiteMan.Init(renderer, "whiteMan", "../assets/Mob/WhiteMan/idle.png", "../assets/Mob/WhiteMan/walk.png", 80, 80);
+    whiteMan.Init(renderer, "whiteMan", "../assets/Mob/WhiteMan/idle.png", "../assets/Mob/WhiteMan/walk.png", 80, 80, 200, 200);
 }
 
 //Game Loop
