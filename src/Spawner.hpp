@@ -6,6 +6,8 @@
 #include "Mob.hpp"
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
+
 
 
 
