@@ -3,6 +3,7 @@
 #include "Global.hpp"
 #include "Player.hpp"
 #include "Mob.hpp"
+#include "Spawner.hpp"
 
 
 class Game
@@ -22,6 +23,7 @@ private:
     //Iniatlize other classes
     Player player;
     Mob whiteMan;
+    Spawner spawner;
 
 
     //Initialize window variables

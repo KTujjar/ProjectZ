@@ -9,7 +9,6 @@ Game::Game()
 void Game::loadTextures()
 {
     player.Init(renderer);
-    whiteMan.Init(renderer, "whiteMan", "../assets/Mob/WhiteMan/idle.png", "../assets/Mob/WhiteMan/walk.png", 80, 80, 200, 200);
 }
 
 //Game Loop
@@ -46,7 +45,7 @@ void Game::update(double delta)
 {
     player.Update(delta);
     SDL_FRect playerC = player.getCollisionRect();
-    whiteMan.Update(delta, playerC.x, playerC.y);
+    spawner.Update(renderer, delta, playerC.x, playerC.y);
 }
 
 //Handles drawing to screen
@@ -57,7 +56,7 @@ void Game::render()
 
     //Render Objects Here
     player.Render(renderer);
-    whiteMan.Render(renderer);
+    spawner.Render(renderer);
 
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
